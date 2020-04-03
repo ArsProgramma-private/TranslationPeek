@@ -1,0 +1,81 @@
+{
+	"name": "translationpeek",
+	"publisher": "perenz",
+	"repository": "github:ArsProgramma/TranslationPeek",
+	"displayName": "TranslationPeek",
+	"description": "Simple tooltip extensions displaying translation-values when hovering over their keys. ",
+	"version": "0.0.1",
+	"preview": true,
+	"keywords": [
+		"translation",
+		"tooltip",
+		"peek",
+		"util"
+	],
+	"engines": {
+		"vscode": "^1.42.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [],
+		"configuration": {
+			"title": "TranslationPeek",
+			"type": "object",
+			"properties": {
+				"translationPeek.jsonName": {
+					"type": "string",
+					"default": "translation.json",
+					"description": "Name of the translation-file",
+					"scope": "workspace"
+				},
+				"translationPeek.prefix": {
+					"type": "string",
+					"default": "",
+					"description": "Common prefix of translation keys",
+					"scope": "workspace"
+				},
+				"translationPeek.take": {
+					"type": "string",
+					"default": "first",
+					"description": "Show all translation-values for the key, or just the first one found?",
+					"enum": [
+						"first",
+						"all"
+					],
+					"enumDescriptions": [
+						"Show only the first value found for the translation key",
+						"Show all values found for the translation key"
+					]
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js",
+		"build:vsix": "npm run compile && vsce package"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.1",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.42.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.18.0",
+		"@typescript-eslint/eslint-plugin": "^2.18.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.0.1",
+		"typescript": "^3.7.5",
+		"vscode-test": "^1.3.0"
+	}
+}
