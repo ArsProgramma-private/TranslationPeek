@@ -1,8 +1,9 @@
 # ReadMe
 This is a straightforward solution for a developers translation-mapping issues.
 Essentialy it does do the following:
-if you hover a word in your code or markup that matches an id inside your jsaon-translation-mappings,
-a tooltip is shown. This tooltip either contains the first or all translations found for the hovered id.
+if you hover a word in your code or markup that matches an id inside your json-translation-mapping,
+a tooltip is shown. 
+This tooltip either contains the first or all translations found for the hovered id.
 
 ## Install
 Just like any other VSCode extension.
