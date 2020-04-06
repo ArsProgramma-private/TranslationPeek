@@ -11,11 +11,11 @@ Restart VSCode (just to be sure)
 
 ## Configure
 Via user- or workspace settings:
-  - **Json-Name** filename (without diractory) of the json-file containing translation mapping.
+  - **Json-Name** filename (without directory) of the json-file containing translation mapping.
   - **Prefix** _(optional)_ prefix that is common to the translation keys. 
-  - **Take** Strategy for toltip information
+  - **Take** Strategy for tooltip information
     - _first:_ only show translation of first hit
-    - _all:_ show all translation found for the hovered key
+    - _all:_ show every translation found for the hovered key
 
 ## Develop
 For information on how to buld, test and publish this extension 
