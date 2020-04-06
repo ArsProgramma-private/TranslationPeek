@@ -75,11 +75,11 @@ function setConfiguration() {
 
 function setTranslationFile() {
 	if (!filenameModified) { return; }
-	vscode.workspace.findFiles(`**/${fileName}`).then(files => file = files[0]);
+	return vscode.workspace.findFiles(`**/${fileName}`).then(files => file = files[0]);
 }
 
 async function setTranslationContent(file: vscode.Uri) {
-	vscode.workspace.fs.stat(file).then(stat => {
+	return vscode.workspace.fs.stat(file).then(stat => {
 		configChanged = stat.mtime !== modifiedTime ? true : false;
 		modifiedTime = stat.mtime;
 		readTranslationFile(file);
