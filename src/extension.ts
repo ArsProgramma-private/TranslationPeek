@@ -13,8 +13,10 @@ function getValue(obj: any, key: string, firstOnly: boolean = true): string[] {
 			(typeof obj[p] === "object")) {
 			getValue(obj[p], key, firstOnly).map(r => result.push(r));
 		} else {
-			const res = Object.entries(obj).find(e => e[0] === key) as any;
-			return res ? [res[1].toString()] : [];
+			const res = Object.entries(obj).find((e: any) => e[0] === key) as any;
+			if(res){
+				return [res[1].toString()];
+			}
 		}
 	}
 	if (firstOnly) { return [result[0]]; }
