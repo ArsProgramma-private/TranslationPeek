@@ -24,86 +24,65 @@ function getValue(obj: any, key: string, firstOnly: boolean = true): string[] {
 }
 
 let config: vscode.WorkspaceConfiguration;
-let configChanged: boolean = true;
-let fileName: string;
-let prefix: string;
-let tranlationValueMode: string;
+/* let prefix: string;
+let tranlationValueMode: string; */
 
-let file: vscode.Uri;
-let modifiedTime: number;
-let translations: any = {};
-let filenameModified: boolean = true;
 
-export function activate(context: vscode.ExtensionContext) {
-	handleTranslationFileManagement().then(_ => {
-		let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
+export async function activate(context: vscode.ExtensionContext) {
+	handleTranslationFileManagement();
+	vscode.workspace.onDidChangeConfiguration(config => handleTranslationFileManagement());
+
+	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
 			provideHover(document, position, token) {
-				return handleTranslationFileManagement().then(_ => {
+				//return handleTranslationFileManagement().then(_ => { 
 					const wordBorders = document.getWordRangeAtPosition(position);
 					if (wordBorders) {
 						const hoveredLine = document.lineAt(wordBorders.start).text;
 						const hoveredWord = hoveredLine.substring(wordBorders?.start.character, wordBorders?.end.character);
-						if (!prefix || hoveredWord.startsWith(prefix)) {
-							const translation = getValue(translations, hoveredWord, tranlationValueMode === 'first');
+						if (!info.prefix || hoveredWord.startsWith(info.prefix)) {
+							const translation = getValue(info.content, hoveredWord, info.translationValueMode === 'first');
 							const hoverText = new vscode.MarkdownString(translation.join('\\\r\n'));
 							return new vscode.Hover(hoverText);
 						}
 					}
-				});
-			}
-		});
+				//}); 
+			} 
+		 });
 
 		context.subscriptions.push(d2);
-	});
-}
+} 
 
+let info: {
+	 prefix?: string,
+	 translationValueMode?: string,
+	 content?: string
+} = {};
 async function handleTranslationFileManagement() {
-	setConfiguration();
-	setTranslationFileName(config);
-	setTranslationPrefix(config);
-	setTranslationValueMode(config);
-
-	await setTranslationFile();
-	await setTranslationContent(file);
-}
-
-function setConfiguration() {
 	const currentConfig = vscode.workspace.getConfiguration('translationPeek');
 	if (config !== currentConfig) {
-		configChanged = true;
 		config = currentConfig;
+		const fileName = getTranslationFileName(config);
+		info.prefix = getTranslationPrefix(config);
+		info.translationValueMode = getTranslationValueMode(config);		
+		const file = await getTranslationFile(fileName);
+		info.content = await getTranslationContent(file);
 	}
+} 
+ 
+async function getTranslationFile(fileName: string): Promise<vscode.Uri>{
+	 return await vscode.workspace.findFiles(`**/${fileName}`).then(files => files[0]);
 }
 
-function setTranslationFile() {
-	if (!filenameModified) { return; }
-	return vscode.workspace.findFiles(`**/${fileName}`).then(files => file = files[0]);
-}
-
-async function setTranslationContent(file: vscode.Uri) {
-	return vscode.workspace.fs.stat(file).then(stat => {
-		configChanged = stat.mtime !== modifiedTime ? true : false;
-		modifiedTime = stat.mtime;
-		readTranslationFile(file);
-	});
-}
-
-const setTranslationPrefix = (config: vscode.WorkspaceConfiguration) => prefix = config.get('prefix', '').toString();
-const setTranslationFileName = (config: vscode.WorkspaceConfiguration) => {
-	const name = config.get('jsonName', 'translation.json').toString() || 'translation.json';
-	filenameModified = name !== fileName ? true : false;
-	fileName = name;
-};
-const setTranslationValueMode = (config: vscode.WorkspaceConfiguration) => tranlationValueMode = config.get('take', 'first').toString() || 'first';
-
-async function readTranslationFile(file: vscode.Uri) {
-	if (!configChanged) { return; }
-
-	vscode.workspace.fs.readFile(file).then(contents => {
+async function getTranslationContent(file: vscode.Uri): Promise<string> {
+	return vscode.workspace.fs.readFile(file).then(contents => {
 		const translationText = new TextDecoder("utf-8").decode(contents);
-		translations = JSON.parse(translationText);
+		return JSON.parse(translationText);
 	});
 }
+
+const getTranslationPrefix = (config: vscode.WorkspaceConfiguration) => config.get('prefix', '').toString();
+const getTranslationFileName = (config: vscode.WorkspaceConfiguration) =>  config.get('jsonName', 'translation.json').toString() || 'translation.json';
+const getTranslationValueMode = (config: vscode.WorkspaceConfiguration) => config.get('take', 'first').toString() || 'first';
 
 // this method is called when your extension is deactivated
 export function deactivate() { }
