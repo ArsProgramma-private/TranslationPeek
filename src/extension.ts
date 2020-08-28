@@ -24,40 +24,34 @@ function getValue(obj: any, key: string, firstOnly: boolean = true): string[] {
 }
 
 let config: vscode.WorkspaceConfiguration;
-/* let prefix: string;
-let tranlationValueMode: string; */
+let info: {
+	prefix?: string,
+	translationValueMode?: string,
+	content?: string
+} = {};
 
-
-export async function activate(context: vscode.ExtensionContext) {
-	handleTranslationFileManagement();
-	vscode.workspace.onDidChangeConfiguration(config => handleTranslationFileManagement());
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
+	//handleTranslationFileManagement();
+	vscode.workspace.onDidChangeConfiguration(_ => handleTranslationFileManagement());
 
 	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
-			provideHover(document, position, token) {
-				//return handleTranslationFileManagement().then(_ => { 
-					const wordBorders = document.getWordRangeAtPosition(position);
-					if (wordBorders) {
-						const hoveredLine = document.lineAt(wordBorders.start).text;
-						const hoveredWord = hoveredLine.substring(wordBorders?.start.character, wordBorders?.end.character);
-						if (!info.prefix || hoveredWord.startsWith(info.prefix)) {
-							const translation = getValue(info.content, hoveredWord, info.translationValueMode === 'first');
-							const hoverText = new vscode.MarkdownString(translation.join('\\\r\n'));
-							return new vscode.Hover(hoverText);
-						}
-					}
-				//}); 
-			} 
-		 });
-
-		context.subscriptions.push(d2);
+		provideHover(document, position, _) {
+			const wordBorders = document.getWordRangeAtPosition(position);
+			if (wordBorders) {
+				const hoveredLine = document.lineAt(wordBorders.start).text;
+				const hoveredWord = hoveredLine.substring(wordBorders?.start.character, wordBorders?.end.character);
+				if (!info.prefix || hoveredWord.startsWith(info.prefix)) {
+					const translation = getValue(info.content, hoveredWord, info.translationValueMode === 'first');
+					const hoverText = new vscode.MarkdownString(translation.join('\\\r\n'));
+					return new vscode.Hover(hoverText);
+				}
+			}
+		} 
+	});
+	context.subscriptions.push(d2);
 } 
 
-let info: {
-	 prefix?: string,
-	 translationValueMode?: string,
-	 content?: string
-} = {};
-async function handleTranslationFileManagement() {
+async function handleTranslationFileManagement(): Promise<void> {
 	const currentConfig = vscode.workspace.getConfiguration('translationPeek');
 	if (config !== currentConfig) {
 		config = currentConfig;
@@ -80,9 +74,9 @@ async function getTranslationContent(file: vscode.Uri): Promise<string> {
 	});
 }
 
-const getTranslationPrefix = (config: vscode.WorkspaceConfiguration) => config.get('prefix', '').toString();
-const getTranslationFileName = (config: vscode.WorkspaceConfiguration) =>  config.get('jsonName', 'translation.json').toString() || 'translation.json';
-const getTranslationValueMode = (config: vscode.WorkspaceConfiguration) => config.get('take', 'first').toString() || 'first';
+const getTranslationPrefix = (config: vscode.WorkspaceConfiguration): string => config.get('prefix', '').toString();
+const getTranslationFileName = (config: vscode.WorkspaceConfiguration): string =>  config.get('jsonName', 'translation.json').toString() || 'translation.json';
+const getTranslationValueMode = (config: vscode.WorkspaceConfiguration): 'first' | 'all' => (config.get('take', 'first') as any).toString() || 'first';
 
 // this method is called when your extension is deactivated
-export function deactivate() { }
+export function deactivate(): void { }
