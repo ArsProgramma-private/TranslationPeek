@@ -31,7 +31,7 @@ let info: {
 } = {};
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
-	//handleTranslationFileManagement();
+	handleTranslationFileManagement();
 	vscode.workspace.onDidChangeConfiguration(_ => handleTranslationFileManagement());
 
 	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
