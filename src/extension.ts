@@ -27,7 +27,7 @@ let config: vscode.WorkspaceConfiguration;
 let info: {
 	prefix?: string,
 	translationValueMode?: string,
-	content?: string
+	content?: any
 } = {};
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
@@ -55,11 +55,12 @@ async function handleTranslationFileManagement(): Promise<void> {
 	const currentConfig = vscode.workspace.getConfiguration('translationPeek');
 	if (config !== currentConfig) {
 		config = currentConfig;
-		const fileName = getTranslationFileName(config);
+		const fileNames = getTranslationFileNames(config);
 		info.prefix = getTranslationPrefix(config);
 		info.translationValueMode = getTranslationValueMode(config);		
-		const file = await getTranslationFile(fileName);
-		info.content = await getTranslationContent(file);
+		const files = await Promise.all(fileNames.map(fileName => getTranslationFile(fileName)));
+		const contents = await Promise.all(files.map(async (file, i) => ({[fileNames[i].split('.')[0]]: await getTranslationContent(file)})));
+		info.content = contents.reduce((p,c)=> ({...p,...c}), {});
 	}
 } 
  
@@ -75,7 +76,7 @@ async function getTranslationContent(file: vscode.Uri): Promise<string> {
 }
 
 const getTranslationPrefix = (config: vscode.WorkspaceConfiguration): string => config.get('prefix', '').toString();
-const getTranslationFileName = (config: vscode.WorkspaceConfiguration): string =>  config.get('jsonName', 'translation.json').toString() || 'translation.json';
+const getTranslationFileNames = (config: vscode.WorkspaceConfiguration): string[] =>  config.get('jsonNames', ['translation.json']) || ['translation.json'];
 const getTranslationValueMode = (config: vscode.WorkspaceConfiguration): 'first' | 'all' => (config.get('take', 'first') as any).toString() || 'first';
 
 // this method is called when your extension is deactivated
