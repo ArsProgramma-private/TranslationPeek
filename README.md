@@ -118,6 +118,44 @@ In action this will work just as well as before:
 
 ![Usage for example 4](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_4.png)
 
+### Basic example 5
+As of v0.0.2 it is possible to use multiple json-files as sources for translations.
+
+Think of having two files, `en-US.json` containing the english translations:
+
+```json
+{
+    
+    "IDS_1": "My Project",
+    "IDS_2": "Some kind of text",
+    "IDS_3": "Headline",
+    "IDS_4": "Subheadline",
+    "IDS_5": "Article",
+    "IDS_6": "Comments"
+}
+
+and maybe `de-DE.json` for the german ones:
+
+```
+```json   
+{
+    "IDS_1": "Mein Projekt",
+    "IDS_2": "Irgendein Text",
+    "IDS_3": "Überschrift",
+    "IDS_4": "Überschnitt für Abschnitt",
+    "IDS_5": "Artikel",
+    "IDS_6": "Kommentare"
+}
+```
+
+When setting multiple files as translations sources by adding them via the `Add files`-button you can setup a configuration like this:
+![Settings for example 5](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/settings_example_5.png)
+
+In action this will work just as well as before:
+![Usage for example 5](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_5.png)
+
+However be **aware** that setting `Take` to `first` will now only return the first match of the first file you defined.
+
 ## Roadmap
 Allow a couple of different translation-files as hover-source instead of a single one.
 
@@ -127,7 +165,7 @@ Restart VSCode (just to be sure)
 
 ## Configure
 Via user- or workspace settings:
-  - **Json-Name** filename (without directory) of the json-file containing translation mapping.
+  - **Json-Names** filenames (without directory) of the json-files containing translation mappings.
   - **Prefix** _(optional)_ prefix that is common to the translation keys. 
   - **Take** Strategy for tooltip information
     - _first:_ only show translation of first hit
