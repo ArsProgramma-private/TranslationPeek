@@ -4,6 +4,7 @@
 	"repository": "github:ArsProgramma/TranslationPeek",
 	"displayName": "TranslationPeek",
 	"description": "Simple tooltip extensions displaying translation-values when hovering over their keys. ",
+	"icon": "assets/icon.png",
 	"version": "0.0.1",
 	"preview": true,
 	"keywords": [
@@ -11,6 +12,7 @@
 		"translation",
 		"tooltip",
 		"peek",
+		"i18n",
 		"util"
 	],
 	"engines": {
