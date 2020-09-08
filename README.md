@@ -5,6 +5,122 @@ if you hover a word in your code or markup that matches an id inside your json-t
 a tooltip is shown. 
 This tooltip either contains the first or all translations found for the hovered id.
 
+## Example
+### Basic example 1
+Assuming you have some dedicated JSON-translation file inside your project named `en-US.json` with the follwing content:
+
+```json
+{
+  "mypro": "My Project",
+  "text": "Some kind of text",
+  "header": "Headline",
+  "subheader": "Subheadline"
+}
+```
+
+As an configuration for this you might come up, defining the translation-files name like this:
+
+![Settings for example 1](/src/readme-asests/settings_example_1.png)
+
+Whenever you find some string inside your project's files you may hover it
+to see the translation of that key as a hovering tooltip:
+
+![Usage for example 1](/src/readme-asests/usage_example_1.png)
+
+### Basic example 2
+However this approach can be optimized in terms of performance if you have translation-keys that share a common prefix:
+
+```json
+{
+    "IDS_1": "My Project",
+    "IDS_2": "Some kind of text",
+    "IDS_3": "Headline",
+    "IDS_4": "Subheadline",
+    "IDS_5": "Article",
+    "IDS_6": "Comments"
+}
+```
+
+As an configuration for this you might come up with something like:
+
+![Settings for example 2](/src/readme-asests/settings_example_2.png)
+
+Whenever you find some string inside your project's files you may hover it
+to see the translation of that key as a hovering tooltip:
+
+![Usage for example 2](/src/readme-asests/usage_example_1_2.png)
+
+### Basic example 3
+However it might happen you do not have one single translation language inside the same file, but multiple. As an example it might look like:
+
+```json
+{
+    "en": {
+        "IDS_1": "My Project",
+        "IDS_2": "Some kind of text",
+        "IDS_3": "Headline",
+        "IDS_4": "Subheadline",
+        "IDS_5": "Article",
+        "IDS_6": "Comments"
+    },
+    "de": {
+        "IDS_1": "Mein Projekt",
+        "IDS_2": "Irgendein Text",
+        "IDS_3": "Überschrift",
+        "IDS_4": "Überschnitt für Abschnitt",
+        "IDS_5": "Artikel",
+        "IDS_6": "Kommentare"
+    }
+}
+```
+
+In such a situation it's likely you want to see all translations at once.
+To enable such a behavior just set the ```Take```-setting to ```all```
+
+![Settings for example 3](/src/readme-asests/settings_example_3.png)
+
+When hovering a translation key now, you will see this:
+
+![Usage for example 3](/src/readme-asests/usage_example_3.png)
+
+### Basic example 4
+As you can see, the nesting of your keys does not matter,
+so that you can access also access translations at different depth of nesting:
+
+```json
+{
+    "en": {
+        "nested": {
+            "IDS_1": "My Project",
+            "deeper": {
+                "IDS_2": "Some kind of text",
+                "IDS_3": "Headline",
+                "IDS_4": "Subheadline"
+            },
+            "IDS_5": "Article",
+            "IDS_6": "Comments"
+        }
+    },
+    "de": {
+        "IDS_1": "Mein Projekt",
+        "IDS_2": "Irgendein Text",
+        "IDS_3": "Überschrift",
+            "other-nesting": {
+            "IDS_4": "Überschnitt für Abschnitt",
+            "IDS_5": "Artikel",
+            "IDS_6": "Kommentare"
+        }
+    }
+}
+```
+
+In action this will work just as well as before:
+
+![Usage for example 4](/src/readme-asests/usage_example_4.png)
+
+## Roadmap
+Allow a couple of different translation-files as hover-source instead of a single one.
+
 ## Install
 Just like any other VSCode extension.
 Restart VSCode (just to be sure)
