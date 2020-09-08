@@ -20,12 +20,12 @@ Assuming you have some dedicated JSON-translation file inside your project named
 
 As an configuration for this you might come up, defining the translation-files name like this:
 
-![Settings for example 1](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/settings_example_1.png)
+![Settings for example 1](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/settings_example_1.png)
 
 Whenever you find some string inside your project's files you may hover it
 to see the translation of that key as a hovering tooltip:
 
-![Usage for example 1](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/usage_example_1.png)
+![Usage for example 1](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_1.png)
 
 ### Basic example 2
 However this approach can be optimized in terms of performance if you have translation-keys that share a common prefix:
@@ -43,12 +43,12 @@ However this approach can be optimized in terms of performance if you have trans
 
 As an configuration for this you might come up with something like:
 
-![Settings for example 2](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/settings_example_2.png)
+![Settings for example 2](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/settings_example_2.png)
 
 Whenever you find some string inside your project's files you may hover it
 to see the translation of that key as a hovering tooltip:
 
-![Usage for example 2](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/usage_example_1_2.png)
+![Usage for example 2](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_1_2.png)
 
 ### Basic example 3
 However it might happen you do not have one single translation language inside the same file, but multiple. As an example it might look like:
@@ -77,11 +77,11 @@ However it might happen you do not have one single translation language inside t
 In such a situation it's likely you want to see all translations at once.
 To enable such a behavior just set the ```Take```-setting to ```all```
 
-![Settings for example 3](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/settings_example_3.png)
+![Settings for example 3](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/settings_example_3.png)
 
 When hovering a translation key now, you will see this:
 
-![Usage for example 3](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/usage_example_3.png)
+![Usage for example 3](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_3.png)
 
 ### Basic example 4
 As you can see, the nesting of your keys does not matter,
@@ -116,7 +116,7 @@ so that you can access also access translations at different depth of nesting:
 
 In action this will work just as well as before:
 
-![Usage for example 4](https://github.com/ArsProgramma/TranslationPeek/tree/master/src/readme-asests/usage_example_4.png)
+![Usage for example 4](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_4.png)
 
 ## Roadmap
 Allow a couple of different translation-files as hover-source instead of a single one.
