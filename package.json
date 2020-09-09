@@ -5,7 +5,7 @@
 	"displayName": "TranslationPeek",
 	"description": "Simple tooltip extensions displaying translation-values when hovering over their keys. ",
 	"icon": "assets/icon.png",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"preview": true,
 	"keywords": [
 		"vscode",
@@ -31,11 +31,15 @@
 			"title": "TranslationPeek",
 			"type": "object",
 			"properties": {
-				"translationPeek.jsonName": {
-					"type": "string",
-					"default": "translation.json",
-					"description": "Name of the translation-file",
-					"scope": "workspace"
+				"translationPeek.jsonNames": {
+					"type": "array",
+					"description": "Name of the translation-files",
+					"scope": "workspace",
+					"default": ["translation.json"],
+					"items": {
+						"title": "filename",
+						"type": "string"
+					}
 				},
 				"translationPeek.prefix": {
 					"type": "string",
