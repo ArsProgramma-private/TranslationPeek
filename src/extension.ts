@@ -32,8 +32,13 @@ let info: {
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
 	handleTranslationFileManagement();
-	vscode.workspace.onDidChangeConfiguration(_ => handleTranslationFileManagement());
-	setInterval(_ => handleTranslationFileManagement(), 5*60*1000);
+	vscode.workspace.onDidChangeConfiguration(_ => {
+		const currentConfig = vscode.workspace.getConfiguration('translationPeek');
+		if (config !== currentConfig) {
+			handleTranslationFileManagement();
+		}
+	});
+	setInterval(_ => handleTranslationFileManagement(), 5 * 60 * 1000);
 
 	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
 		provideHover(document, position, _) {
@@ -54,15 +59,13 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
 async function handleTranslationFileManagement(): Promise<void> {
 	const currentConfig = vscode.workspace.getConfiguration('translationPeek');
-	if (config !== currentConfig) {
-		config = currentConfig;
-		const fileNames = getTranslationFileNames(config);
-		info.prefix = getTranslationPrefix(config);
-		info.translationValueMode = getTranslationValueMode(config);
-		const files = await Promise.all(fileNames.map(fileName => getTranslationFile(fileName)));
-		const contents = await Promise.all(files.filter(f => !!f).map(async (file, i) => ({ [fileNames[i].split('.')[0]]: await getTranslationContent(file) })));
-		info.content = contents.reduce((p, c) => ({ ...p, ...c }), {});
-	}
+	config = currentConfig;
+	const fileNames = getTranslationFileNames(config);
+	info.prefix = getTranslationPrefix(config);
+	info.translationValueMode = getTranslationValueMode(config);
+	const files = await Promise.all(fileNames.map(fileName => getTranslationFile(fileName)));
+	const contents = await Promise.all(files.filter(f => !!f).map(async (file, i) => ({ [fileNames[i].split('.')[0]]: await getTranslationContent(file) })));
+	info.content = contents.reduce((p, c) => ({ ...p, ...c }), {});
 }
 
 async function getTranslationFile(fileName: string): Promise<vscode.Uri> {
@@ -79,7 +82,7 @@ async function getTranslationContent(file: vscode.Uri): Promise<string> {
 		const translationText = new TextDecoder("utf-8").decode(contents);
 		try {
 			return JSON.parse(translationText);
-		} catch(e) {
+		} catch (e) {
 			vscode.window.showWarningMessage(`TranslationPeek: Translationfile could not be parsed!`);
 			return {};
 		}
