@@ -11,6 +11,7 @@ This tooltip either contains the first or all translations found for the hovered
     - [Basic example 2 (Usage of prefix-setting)](#basic-example-2-usage-of-prefix-setting)
     - [Basic example 3 (Multiple languages in one file)](#basic-example-3-multiple-languages-in-one-file)
     - [Basic example 4 (nested translations)](#basic-example-4-nested-translations)
+    - [Basic example 5](#basic-example-5)
   - [Roadmap](#roadmap)
   - [Install](#install)
   - [Configure](#configure)
@@ -171,7 +172,7 @@ In action this will work just as well as before:
 However be **aware** that setting `Take` to `first` will now only return the first match of the first file you defined.
 
 ## Roadmap
-Allow a couple of different translation-files as hover-source instead of a single one.
+  - Update translations automatically when they were edited.
 
 ## Install
 Just like any other VSCode extension.
