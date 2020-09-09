@@ -33,6 +33,7 @@ let info: {
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
 	handleTranslationFileManagement();
 	vscode.workspace.onDidChangeConfiguration(_ => handleTranslationFileManagement());
+	setInterval(_ => handleTranslationFileManagement(), 5*60*1000);
 
 	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
 		provideHover(document, position, _) {
