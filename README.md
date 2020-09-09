@@ -63,7 +63,7 @@ As an configuration for this you might come up with something like:
 Whenever you find some string inside your project's files you may hover it
 to see the translation of that key as a hovering tooltip:
 
-![Usage for example 2](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_1_2.png)
+![Usage for example 2](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_2.png)
 
 ### Basic example 3 (Multiple languages in one file)
 However it might happen you do not have one single translation language inside the same file, but multiple. As an example it might look like:
