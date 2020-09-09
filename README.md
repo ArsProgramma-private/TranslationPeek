@@ -5,6 +5,20 @@ if you hover a word in your code or markup that matches an id inside your json-t
 a tooltip is shown. 
 This tooltip either contains the first or all translations found for the hovered id.
 
+- [ReadMe](#readme)
+  - [Example](#example)
+    - [Basic example 1](#basic-example-1)
+    - [Basic example 2 (Usage of prefix-setting)](#basic-example-2-usage-of-prefix-setting)
+    - [Basic example 3 (Multiple languages in one file)](#basic-example-3-multiple-languages-in-one-file)
+    - [Basic example 4 (nested translations)](#basic-example-4-nested-translations)
+  - [Roadmap](#roadmap)
+  - [Install](#install)
+  - [Configure](#configure)
+  - [Develop](#develop)
+    - [Preperations](#preperations)
+    - [Test in Debug mode](#test-in-debug-mode)
+    - [Install for local pre-publish-testing](#install-for-local-pre-publish-testing)
+
 ## Example
 ### Basic example 1
 Assuming you have some dedicated JSON-translation file inside your project named `en-US.json` with the follwing content:
@@ -27,7 +41,7 @@ to see the translation of that key as a hovering tooltip:
 
 ![Usage for example 1](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_1.png)
 
-### Basic example 2
+### Basic example 2 (Usage of prefix-setting)
 However this approach can be optimized in terms of performance if you have translation-keys that share a common prefix:
 
 ```json
@@ -50,7 +64,7 @@ to see the translation of that key as a hovering tooltip:
 
 ![Usage for example 2](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_1_2.png)
 
-### Basic example 3
+### Basic example 3 (Multiple languages in one file)
 However it might happen you do not have one single translation language inside the same file, but multiple. As an example it might look like:
 
 ```json
@@ -83,7 +97,7 @@ When hovering a translation key now, you will see this:
 
 ![Usage for example 3](https://raw.githubusercontent.com/ArsProgramma/TranslationPeek/master/src/readme-asests/usage_example_3.png)
 
-### Basic example 4
+### Basic example 4 (nested translations)
 As you can see, the nesting of your keys does not matter,
 so that you can access also access translations at different depth of nesting:
 
