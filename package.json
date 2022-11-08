@@ -5,7 +5,7 @@
 	"displayName": "TranslationPeek",
 	"description": "Simple tooltip extensions displaying translation-values when hovering over their keys. ",
 	"icon": "assets/icon.png",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"preview": true,
 	"keywords": [
 		"vscode",
