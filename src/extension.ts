@@ -7,11 +7,12 @@ import { TextDecoder } from 'util';
 // your extension is activated the very first time the command is executed
 function getValue(obj: any, key: string, firstOnly: boolean = true): string[] {
 	const result: string[] = [];
-	for (let p in obj) {
-		// checking if it's nested to iterate again
-		if (obj.hasOwnProperty(p) &&
-			(typeof obj[p] === "object")) {
-			getValue(obj[p], key, firstOnly).map(r => result.push(r));
+	const keyChain = key.split('.');
+	for (let i = 0; i < keyChain.length; i++) {
+		const key = keyChain[i];
+		if (obj.hasOwnProperty(key) &&
+			(typeof obj[key] === "object")) {
+			getValue(obj[key], keyChain.splice(1).join('.'), firstOnly).map(r => result.push(r));
 		} else {
 			const res = Object.entries(obj).find((e: any) => e[0] === key) as any;
 			if (res) {
@@ -42,14 +43,16 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
 	let d2 = vscode.languages.registerHoverProvider(['typescript', 'javascript', 'html'], {
 		provideHover(document, position, _) {
-			const wordBorders = document.getWordRangeAtPosition(position);
+			const wordBorders = document.getWordRangeAtPosition(position, /[A-Z_\.0-9a-z]+/);
 			if (wordBorders) {
 				const hoveredLine = document.lineAt(wordBorders.start).text;
 				const hoveredWord = hoveredLine.substring(wordBorders?.start.character, wordBorders?.end.character);
 				if (!info.prefix || hoveredWord.startsWith(info.prefix)) {
-					const translation = getValue(info.content, hoveredWord, info.translationValueMode === 'first');
-					const hoverText = new vscode.MarkdownString(translation.join('\\\r\n'));
-					return new vscode.Hover(hoverText);
+					const translations = Object.entries(info.content)
+						.map(element => getValue(element[1], hoveredWord, info.translationValueMode === 'first'))
+						.filter(trans => trans?.length);
+					const hoverText = new vscode.MarkdownString(translations?.join('\\\r\n'));
+					return hoverText && new vscode.Hover(hoverText);
 				}
 			}
 		}
@@ -70,6 +73,7 @@ async function handleTranslationFileManagement(): Promise<void> {
 
 async function getTranslationFile(fileName: string): Promise<vscode.Uri> {
 	return await vscode.workspace.findFiles(`**/${fileName}`).then(files => {
+		files = files?.filter(file => !file.path.includes('node_modules'));
 		if (!files || !files[0]) {
 			vscode.window.showWarningMessage(`TranslationPeek: Translationfile could not be found!`);
 		}
